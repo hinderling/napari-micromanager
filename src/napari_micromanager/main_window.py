@@ -29,9 +29,18 @@ class MainWindow(MicroManagerToolbar):
     """The main napari-micromanager widget that gets added to napari."""
 
     def __init__(
-        self, viewer: napari.viewer.Viewer, config: str | Path | None = None
+        self,
+        viewer: napari.viewer.Viewer,
+        config: str | Path | None = None,
+        core: CMMCorePlus | None = None,
     ) -> None:
         super().__init__(viewer)
+
+        # Allow injection of a custom core (e.g. UniMMCore for #py cfg files).
+        # Install into the singleton so all downstream code sees it.
+        if core is not None:
+            import pymmcore_plus.core._mmcore_plus as _core_mod
+            _core_mod._instance = core
 
         # get global CMMCorePlus instance
         self._mmc = CMMCorePlus.instance()
