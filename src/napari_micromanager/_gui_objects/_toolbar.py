@@ -13,7 +13,6 @@ from pymmcore_widgets import (
     DefaultCameraExposureWidget,
     GroupPresetTableWidget,
     LiveButton,
-    ObjectivesWidget,
     PropertyBrowser,
     SnapButton,
 )
@@ -40,6 +39,7 @@ from qtpy.QtWidgets import (
 from superqt.fonticon import icon
 
 from napari_micromanager._gui_objects._illumination_widget import IlluminationWidget
+from napari_micromanager._gui_objects._objectives_widget import ObjectivesWidget
 from napari_micromanager._gui_objects._mda_widget import MultiDWidget
 from napari_micromanager._gui_objects._min_max_widget import MinMax
 from napari_micromanager._gui_objects._shutters_widget import MMShuttersWidget
