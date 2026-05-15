@@ -101,8 +101,14 @@ class CoreViewerLink(QObject):
             handler._update_viewer_dims(handler._viewer_updates.popleft())
 
     def _image_snapped(self) -> None:
-        # If we are in the middle of an MDA, don't update the preview viewer.
-        if not self._mda_handler._mda_running:
+        # If we are in the middle of an MDA, don't consume the snap buffer:
+        # the MDA engine's exec_single_event has already called snapImage()
+        # and will call getImage() itself. Querying the runner directly
+        # (rather than _mda_handler._mda_running) avoids a startup race
+        # where, on the first event, the worker thread has already called
+        # snapImage before _on_mda_started runs on the main thread and
+        # sets _mda_running = True.
+        if not self._mmc.mda.is_running():
             self._update_viewer(self._mmc.getImage())
 
     def _start_live(self) -> None:
